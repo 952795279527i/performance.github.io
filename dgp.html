@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="echarts.min.js"></script>
+  </head>
+  <body>
+    <div id="main" style="width: 800px; height: 500px"></div>
+    <script>
+      var chartDom = document.getElementById("main");
+      var myChart = echarts.init(chartDom);
+      var option;
+      const data = [];
+      for (let i = 0; i < 24; ++i) {
+        data.push(Math.round(Math.random() * 200));
+      }
+      option = {
+        xAxis: {
+          max: "dataMax",
+        },
+        yAxis: {
+          type: "category",
+          data: ['河北省（冀）','山东省（齐）','辽宁省（辽）','黑龙江省（黑）','吉林省（吉）','甘肃省（陇）','青海省（青）','河南省（豫）','江苏省（苏）','湖北省（鄂）','湖南省（湘）','江西省（赣）','浙江省（浙）','广东省（粤）','云南省（滇）','福建省（福）', '台湾省 （台）','海南省（琼）','山西省（晋）','四川省（川）','陕西省（陕）','贵州省（黔）','安徽省（皖）'],
+          inverse: true,
+          animationDuration: 300,
+          animationDurationUpdate: 300,
+          max: 23, // only the largest 3 bars will be displayed
+        },
+        series: [
+          {
+            realtimeSort: true,
+            name: "DPG",
+            type: "bar",
+            data: data,
+            label: {
+              show: true,
+              position: "right",
+              valueAnimation: true,
+            },
+          },
+        ],
+        legend: {
+          show: true,
+        },
+        animationDuration: 0,
+        animationDurationUpdate: 3000,
+        animationEasing: "linear",
+        animationEasingUpdate: "linear",
+      };
+      function run() {
+        for (var i = 0; i < data.length; ++i) {
+          if (Math.random() > 0.9) {
+            data[i] += Math.round(Math.random() * 2000);
+          } else {
+            data[i] += Math.round(Math.random() * 200);
+          }
+        }
+        myChart.setOption({
+          series: [
+            {
+              type: "bar",
+              data,
+            },
+          ],
+        });
+      }
+      setTimeout(function () {
+        run();
+      }, 0);
+      setInterval(function () {
+        run();
+      }, 3000);
+
+      option && myChart.setOption(option);
+    </script>
+  </body>
+</html>
