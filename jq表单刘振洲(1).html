@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        table{
+            border-collapse:collapse ;
+            border-color:#ccc;
+            width:600px;
+        }
+        table thead{
+            height: 80px;
+        }
+        .btn,#butt{
+            border: 1px solid black;
+            background-color: red;
+            color:white;
+            text-align: center;
+            width: 80px;
+            height:40px;
+        }
+        form{
+            width: 220px;
+            height: 220px;
+            background-color: #ccc;
+        }
+        .formObj{
+            width: 220px;
+            height: 220px;
+            position: absolute;
+            top: 10px;
+            left:300px;
+            display: none;
+        }
+    </style>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.4/jquery.js"></script>
+</head>
+</head>
+<body>
+    <form action="#">
+        <h4>添加</h4>
+            <span>姓名</span><input type="text" id="nameuers"><br>
+            <span>存款(元)</span><input type="text" id="money"><br>
+            <span>创造时间</span><input type="text" id="times"><br>
+            <button id="but"> 
+                添加
+            </button>
+        </form>
+        <form action="#" class="formObj">
+            <h4>修改</h4>
+                <span>姓名</span><input type="text" id="nameuerss"><br>
+                <span>存款(元)</span><input type="text" id="moneys"><br>
+                <span>创造时间</span><input type="text" id="timess"><br>
+                <button id="addList"> 
+                    确认修改
+                </button>
+                <button id="dleList"> 
+                    取消修改
+                </button>
+            </form>
+            
+            <input type="text" name="kuang" id="kuang">
+            <button name="soushuo">搜索</button>
+    <table border="1">
+        <thead>
+            <tr>
+                <th rowspan="2" colspan="2">
+                    <input type="checkbox" name="" id="check">
+                </th>
+                <th rowspan="2" colspan="2" style="width:200px;">#</th>
+                <th colspan="4">基本信息</th>
+                <th rowspan="2" colspan="2" style="width:200px;">创造时间</th>
+                <th rowspan="2" colspan="2" style="width:200px;">操作</th>
+            </tr>
+            <tr>
+                <th  colspan="2" style="width:200px;">姓名</th>
+                <th  colspan="2" style="width:200px;">存款(元)</th>
+            </tr>
+        </thead>
+        <tbody>
+     
+        </tbody>
+    </table>
+        <script>
+        let indexObj
+        $(document).ready(function(){
+            getList(cool)
+        $('.id1').hide()
+        })  
+
+     
+            let cool = [
+                {
+                    name:'刘一',
+                    mor:'75.99',
+                    time:'2019年09月02日',
+                },
+                {
+                    name:'刘二',
+                    mor:'242.1',
+                    time:'2019年09月05日',
+                },
+                {
+                    name:'刘三',
+                    mor:'74.11',
+                    time:'2019年09月12日',
+                },
+                {
+                    name:'刘亖',
+                    mor:'276.64',
+                    time:'2019年09月13日',
+                },
+                {
+                    name:'刘五',
+                    mor:'160.23',
+                    time:'2019年09月16日',
+                },
+            ]
+        function getList(cool){
+            let html = ''
+               cool.forEach((item,index) => {
+                html+=`
+                 <tr>
+                <td  colspan="2">
+                    <input type="checkbox" name="pitch" id="">
+                </td>
+                <td  colspan="2">
+                    <button id="but" name="buut")">＞</button>
+                </td>
+                <td  colspan="2">${item.name}</td>
+                <td  colspan="2">￥${item.mor}</td>
+                <td  colspan="2">${item.time}</td>
+                <td  colspan="2">
+                    <button name="btn" class="btn">删除</button>
+                    <button name='xiu' onclick='abc(${index})'>修改</button>
+                </td>
+            </tr>
+            <tr class="id1">
+                <td colspan="4">ID</td>
+                <td colspan="2">${index+1}</td>
+                <td>姓名</td>
+                <td>${item.name}</td>
+                <td colspan="3">存储</td>
+                <td>${item.mor}</td>
+            </tr>
+            <tr class="id1">
+                <td colspan="4">创建时间</td>
+                <td colspan="8">${item.time}</td>
+            </tr>
+                 `
+               })
+               $("tbody").append(html)
+        }
+        
+        $('#but').on('click',function(){
+            
+            console.log($('.id1'));
+            event.preventDefault()
+              $("tbody tr").remove()  
+            let add ={
+            name:$('#nameuers').val(),
+            mor:$('#money').val(),
+            time:$('#times').val(),
+        }
+            cool.push(add)
+            $('form input').val('')
+            getList(cool)
+            $('.id1').hide()
+        })
+           $('tbody').on('click','tr td button[name="btn"]',function(){
+            event.preventDefault()
+            if (confirm('Are you sure')) {
+                 $(this).parents('tr').next().next().remove()
+            $(this).parents('tr').next().remove()
+            $(this).parents('tr').remove()
+            }
+           
+           })  
+           $('tbody').on('click','tr td button[name="buut"]',function(){
+            event.preventDefault()
+            if($(this).html()=='∨'){
+                $(this).html('＞')
+                $(this).parent().parent().next().hide()
+                $(this).parent().parent().next().next().hide()
+            }else if( $(this).html()=='＞'){
+                $(this).html('∨')
+                $(this).parent().parent().next().show()
+                $(this).parent().parent().next().next().show()
+            }
+           })
+           let updIndex;
+           function abc(i){
+            updIndex = i;
+            event.preventDefault()
+            $("tbody tr").remove()
+            $('.formObj').css('display', 'block')
+            // console.log(cool[i].name);
+             $('#nameuerss').val(cool[i].name)
+             $('#moneys').val(cool[i].mor)
+             $('#timess').val(cool[i].time)
+            //  cool[i].name = 'zbc'
+             getList(cool)
+             $('.id1').hide()
+           }
+           $('#dleList').click(function(){
+            event.preventDefault()
+            $('.formObj').val('')
+            $('.formObj').css('display', 'none')
+           })
+           $('#addList').click(function(){
+            event.preventDefault()
+            $("tbody tr").remove()
+            console.log(cool[indexObj]);
+            cool[updIndex].name = $('#nameuerss').val()
+            cool[updIndex].mor = $('#moneys').val()
+            cool[updIndex].time = $('#timess').val()
+            $('.formObj').val('')
+            $('.formObj').css('display', 'none')
+            getList(cool)
+            $('.id1').hide()
+           })
+           $('tbody').on('click','input[name="pitch"]',function(){
+             var n = 0
+             $('td input[name="pitch"]').each(function(){
+                if ($(this).prop('checked')==false) {
+                    n++
+                }
+                if (n==0) {
+                    $('#check').prop('checked',true)
+                }else{
+                    $('#check').prop('checked',false)
+                }
+             })
+            //  console.log(n);
+           })
+           $("#check").click(function(){
+        
+        $("td input[name='pitch']").each(function(){
+            $(this).prop('checked',$("#check").prop('checked'))
+        })
+        
+    })
+    $('button[name="soushuo"]').click(function(){
+        let arr = cool.filter(item=>{
+            return item.name.includes($('#kuang').val())
+        })
+        $("tbody tr").remove()
+        getList(arr)
+        $('.id1').hide()
+    })
+        </script>
+   
+</body>
+</html>

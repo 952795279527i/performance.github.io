@@ -1,0 +1,1373 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="jquery.js"></script>
+        <!-- 引入 layui.js -->
+        <script src="layui.js"></script>
+        <!-- 引入 layui.css -->
+        <link rel="stylesheet" href="layui.css" />
+        <!-- 引入 echarts.js -->
+        <script src="echarts.min.js"></script>
+    <title></title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      table{
+        width: 1550px;
+        border-collapse: collapse;
+        /* margin-left: 250px;
+        margin-top: 10%; */
+      }
+      tr th,tr td{
+        padding:3px 19px;
+      }
+      thead{
+        background-color: rgb(70, 226, 234);
+      }
+      tbody td{
+        text-align: center;
+        height: 50px;
+      }
+      #delbtn,#pilebtn,#minebtn,.cha{
+        height: 28px;
+        background-color: #12a182;
+        border: 1px solid #ccc;
+        color: white;
+      }
+      #delbtn,#pilebtn{
+        width: 40px;
+      }
+      #addbtn{
+        width: 100px;
+        height: 35px;
+        background-color: #12a182;
+        border: 1px solid #ccc;
+        color: white;
+      }
+      #divList{
+        width: 500px;
+        height: 35px;
+        display: inline-block;
+      }
+      #textObj{
+        height: 25px;
+        outline: none;
+      }
+      #souList{
+        width: 35px;
+        height: 30px;
+        color: white;
+        background-color: #12a182;
+        border: 1px solid #ccc;
+        font-size: 12px;
+        border-radius: 5px;
+      }
+      #addVlu{
+        width: 120px;
+        height: 40px;
+        color: white;
+        background-color: #12a182;
+        border: 1px solid #ccc;
+        font-size: 12px;
+        border-radius: 5px;
+      }
+      #box-save,#box-save1{
+        width: 350px;
+        height: 250px;
+        border: 1px solid #ccc;
+        background-color: #ccc;
+        position: absolute;
+        top: 40px;
+        left: 62px;
+        display: none;
+      }
+      #box-save div,#box-save1 div{
+        margin-left: 20px;
+      }
+      h3{
+        text-align: center;
+        margin: 6px 0;
+      }
+      #box-save-btn,#box-save-btn1{
+        width: 350px;
+        margin-top: 20px;
+        text-align: center;
+      }
+      #saveBtn,.celBtn,#addcomBtn,.celcomBtn{
+        width: 60px;
+        height: 34px;
+      }
+      #saveBtn,#addcomBtn{
+        background-color: #f23e23;
+        color: white;
+        border: 1px solid #ccc;
+      }
+      .celBtn,.celcomBtn{
+        background-color: #1ba784;
+        color: white;
+        border: 1px solid #ccc;
+      }
+      #studentBtn {
+      margin: 30px;
+      height: 80px;
+    }
+    #main {
+      margin: 0 auto;
+      border: 1px solid #ccc;
+      width: 1000px;
+      height: 600px;
+    }
+    #box{
+      display: none;
+    }
+    #isa{
+      font-size: 40px;
+    }
+    </style>
+  </head>
+  <body>
+    <button id="addbtn">添加学生</button>
+    <div id="divList">搜索：
+      <input type="text" id="textObj" placeholder="请输入学生名字">
+      <button id="souList">搜索</button>
+    </div>
+    <table border="1">
+      <thead>
+        <tr>
+          <th rowspan="2">
+            <input type="checkbox" name="" id="che">
+          </th>
+          <th rowspan="2">姓名</th>
+          <th>3.31(星期五)</th>
+          <th colspan="3">4.7(星期五)</th>
+          <th>4.14(星期五)</th>
+          <th colspan="3">4.21(星期五)</th>
+          <th rowspan="2">教学周期平均分</th>
+          <th rowspan="2">操作</th>
+
+        </tr>
+          <tr>
+          <th>机试成绩</th>
+          <th>笔试成绩</th>
+          <th>机试成绩</th>
+          <th>平均分</th>
+          <th>机试成绩</th>
+          <th>笔试成绩</th>
+          <th>机试成绩</th>
+          <th>平均分</th>
+          </tr>
+      </thead>
+      <tbody>
+       
+      </tbody>
+    </table>
+    <button id="addVlu">批量删除选中</button>
+    <div id="box-save">
+      <h3>添加学生</h3>
+      <div><b>名字：</b><input type="text" id="name" /></div>
+      <div><b>3.31机试成绩：</b><input type="text" id="grade1" /></div>
+      <div><b>4.7笔试成绩：</b><input type="text" id="grade2" /></div>
+      <div><b>4.7机试成绩：</b><input type="text" id="grade3" /></div>
+      <div><b>4.14机试成绩：</b><input type="text" id="grade4" /></div>
+      <div><b>4.21笔试成绩：</b><input type="text" id="grade5" /></div>
+      <div><b>4.21机试成绩：</b><input type="text" id="grade6" /></div>
+      <div id="box-save-btn">
+        <button id="saveBtn">确定</button>
+        <button class="celBtn">取消</button>
+      </div>
+    </div>
+    <div id="box-save1">
+      <h3>编辑学生</h3>
+      <div><b>名字：</b><input type="text" id="nameuser" /></div>
+      <div><b>3.31机试成绩：</b><input type="text" id="compile1" /></div>
+      <div><b>4.7笔试成绩：</b><input type="text" id="compile2" /></div>
+      <div><b>4.7机试成绩：</b><input type="text" id="compile3" /></div>
+      <div><b>4.14机试成绩：</b><input type="text" id="compile4" /></div>
+      <div><b>4.21笔试成绩：</b><input type="text" id="compile5" /></div>
+      <div><b>4.21机试成绩：</b><input type="text" id="compile6" /></div>
+      <div id="box-save-btn1">
+        <button id="addcomBtn">确定</button>
+        <button class="celcomBtn">取消</button>
+      </div>
+    </div>
+    <div id="box">
+      <a href="#" id="isa">X</a>
+      <div id="main"></div>
+    </div>
+    <script>
+      const students = [
+        {
+          name:'陈静',
+          result:[
+            {
+              dataList:'2023-3-31',
+              subject:[
+                {name:'机试',score1:60},
+                {name:'笔试',score2:0},
+                {name:'平均分',score:60},
+              ],
+            },
+            {
+              dataList:'2023-4-7',
+              subject:[
+                {name:'笔试',score2:85},
+                {name:'机试',score1:35},
+                {name:'平均分',score:60},
+              ],
+            },
+            {
+              dataList:'2023-4-14',
+              subject:[
+                {name:'机试',score1:65},
+                {name:'笔试',score2:0},
+                {name:'平均分',score:65},
+              ],
+            },
+            {
+              dataList:'2023-4-21',
+              subject:[
+                {name:'笔试',score2:65},
+                {name:'机试',score1:75},
+                {name:'平均分',score:70},
+              ],
+            },
+          ],
+        },
+        {
+          name:'李泽',
+          result:[
+            {
+              dataList:'2023-3-31',
+              subject:[
+                {name:'机试',score1:99},
+                {name:'笔试',score2:0},
+                {name:'平均分',score:60},
+              ],
+            },
+            {
+              dataList:'2023-4-7',
+              subject:[
+                {name:'笔试',score2:38},
+                {name:'机试',score1:100},
+                {name:'平均分',score:69},
+              ],
+            },
+            {
+              dataList:'2023-4-14',
+              subject:[
+                {name:'机试',score1:70},
+                {name:'笔试',score2:0},
+                {name:'平均分',score:70},
+              ],
+            },
+            {
+              dataList:'2023-4-21',
+              subject:[
+                {name:'笔试',score2:50},
+                {name:'机试',score1:92},
+                {name:'平均分',score:71},
+              ],
+            },
+          ],
+        },
+        {
+          name:'赵灿龙',
+          result:[
+            {
+              dataList:'2023-3-31',
+              subject:[
+                {name:'机试',score1:90},
+                {name:'笔试',score2:0},
+                {name:'平均分',score:90},
+              ],
+            },
+            {
+              dataList:'2023-4-7',
+              subject:[
+                {name:'笔试',score2:51},
+                {name:'机试',score1:70},
+                {name:'平均分',score:60.5},
+              ],
+            },
+            {
+              dataList:'2023-4-14',
+              subject:[
+                {name:'机试',score1:65},
+                {name:'笔试',score2:0},
+                {name:'平均分',score:65},
+              ],
+            },
+            {
+              dataList:'2023-4-21',
+              subject:[
+                {name:'笔试',score2:29},
+                {name:'机试',score1:50},
+                {name:'平均分',score:39.5},
+              ],
+            },
+          ],
+        },
+        {
+          name:'刘佳佳',
+          result:[
+            {
+              dataList:'2023-3-31',
+              subject:[
+                {name:'机试',score1:75},
+                {name:'笔试',score2:0},
+                {name:'平均分',score:75},
+              ],
+            },
+            {
+              dataList:'2023-4-7',
+              subject:[
+                {name:'笔试',score2:45},
+                {name:'机试',score1:70},
+                {name:'平均分',score:57.5},
+              ],
+            },
+            {
+              dataList:'2023-4-14',
+              subject:[
+                {name:'机试',score1:70},
+                {name:'笔试',score2:0},
+                {name:'平均分',score:70},
+              ],
+            },
+            {
+              dataList:'2023-4-21',
+              subject:[
+                {name:'笔试',score2:60},
+                {name:'机试',score1:50},
+                {name:'平均分',score:55},
+              ],
+            },
+          ],
+        },
+        {
+          name:'宋好影',
+          result:[
+            {
+              dataList:'2023-3-31',
+              subject:[
+                {name:'机试',score1:75},
+                {name:'笔试',score2:0},
+                {name:'平均分',score:75},
+              ],
+            },
+            {
+              dataList:'2023-4-7',
+              subject:[
+                {name:'笔试',score2:62},
+                {name:'机试',score1:70},
+                {name:'平均分',score:66},
+              ],
+            },
+            {
+              dataList:'2023-4-14',
+              subject:[
+                {name:'机试',score1:70},
+                {name:'笔试',score2:0},
+                {name:'平均分',score:70},
+              ],
+            },
+            {
+              dataList:'2023-4-21',
+              subject:[
+                {name:'笔试',score2:58},
+                {name:'机试',score1:65},
+                {name:'平均分',score:61.5},
+              ],
+            },
+          ],
+        },
+        {
+          name:'齐博超',
+          result:[
+            {
+              dataList:'2023-3-31',
+              subject:[
+                {name:'机试',score1:95},
+                {name:'笔试',score2:0},
+                {name:'平均分',score:95},
+              ],
+            },
+            {
+              dataList:'2023-4-7',
+              subject:[
+                {name:'笔试',score2:65},
+                {name:'机试',score1:75},
+                {name:'平均分',score:70},
+              ],
+            },
+            {
+              dataList:'2023-4-14',
+              subject:[
+                {name:'机试',score1:75},
+                {name:'笔试',score2:0},
+                {name:'平均分',score:75},
+              ],
+            },
+            {
+              dataList:'2023-4-21',
+              subject:[
+                {name:'笔试',score2:36},
+                {name:'机试',score1:95},
+                {name:'平均分',score:65.5},
+              ],
+            },
+          ],
+        },
+        {
+        name:'郭栋彬',
+          result:[
+            {
+              dataList:'2023-3-31',
+              subject:[
+                {name:'机试',score1:85},
+                {name:'笔试',score2:0},
+                {name:'平均分',score:85},
+              ],
+            },
+            {
+              dataList:'2023-4-7',
+              subject:[
+                {name:'笔试',score2:67},
+                {name:'机试',score1:99},
+                {name:'平均分',score:83},
+              ],
+            },
+            {
+              dataList:'2023-4-14',
+              subject:[
+                {name:'机试',score1:70},
+                {name:'笔试',score2:0},
+                {name:'平均分',score:70},
+              ],
+            },
+            {
+              dataList:'2023-4-21',
+              subject:[
+                {name:'笔试',score2:49},
+                {name:'机试',score1:90},
+                {name:'平均分',score:69.5},
+              ],
+            },
+          ],
+        },
+        {
+        name:'董阳光',
+          result:[
+            {
+              dataList:'2023-3-31',
+              subject:[
+                {name:'机试',score1:80},
+                {name:'笔试',score2:0},
+                {name:'平均分',score:80},
+              ],
+            },
+            {
+              dataList:'2023-4-7',
+              subject:[
+                {name:'笔试',score2:61},
+                {name:'机试',score1:70},
+                {name:'平均分',score:65.5},
+              ],
+            },
+            {
+              dataList:'2023-4-14',
+              subject:[
+                {name:'机试',score1:73},
+                {name:'笔试',score2:0},
+                {name:'平均分',score:73},
+              ],
+            },
+            {
+              dataList:'2023-4-21',
+              subject:[
+                {name:'笔试',score2:41.5},
+                {name:'机试',score1:90},
+                {name:'平均分',score:65.75},
+              ],
+            },
+          ],
+        },
+        {
+        name:'李彦洋',
+          result:[
+            {
+              dataList:'2023-3-31',
+              subject:[
+                {name:'机试',score1:85},
+                {name:'笔试',score2:0},
+                {name:'平均分',score:85},
+              ],
+            },
+            {
+              dataList:'2023-4-7',
+              subject:[
+                {name:'笔试',score2:66},
+                {name:'机试',score1:60},
+                {name:'平均分',score:65.5},
+              ],
+            },
+            {
+              dataList:'2023-4-14',
+              subject:[
+                {name:'机试',score1:65},
+                {name:'笔试',score2:0},
+                {name:'平均分',score:65},
+              ],
+            },
+            {
+              dataList:'2023-4-21',
+              subject:[
+                {name:'笔试',score2:60},
+                {name:'机试',score1:75},
+                {name:'平均分',score:67.5},
+              ],
+            },
+          ],
+        },
+        {
+        name:'张亚哲',
+          result:[
+            {
+              dataList:'2023-3-31',
+              subject:[
+                {name:'机试',score1:95},
+                {name:'笔试',score2:0},
+                {name:'平均分',score:95},
+              ],
+            },
+            {
+              dataList:'2023-4-7',
+              subject:[
+                {name:'笔试',score2:61},
+                {name:'机试',score1:65},
+                {name:'平均分',score:68},
+              ],
+            },
+            {
+              dataList:'2023-4-14',
+              subject:[
+                {name:'机试',score1:70},
+                {name:'笔试',score2:0},
+                {name:'平均分',score:70},
+              ],
+            },
+            {
+              dataList:'2023-4-21',
+              subject:[
+                {name:'笔试',score2:52},
+                {name:'机试',score1:80},
+                {name:'平均分',score:66},
+              ],
+            },
+          ],
+        },
+        {
+        name:'刘振洲',
+          result:[
+            {
+              dataList:'2023-3-31',
+              subject:[
+                {name:'机试',score1:85},
+                {name:'笔试',score2:0},
+                {name:'平均分',score:85},
+              ],
+            },
+            {
+              dataList:'2023-4-7',
+              subject:[
+                {name:'笔试',score2:71},
+                {name:'机试',score1:66},
+                {name:'平均分',score:68.5},
+              ],
+            },
+            {
+              dataList:'2023-4-14',
+              subject:[
+                {name:'机试',score1:60},
+                {name:'笔试',score2:0},
+                {name:'平均分',score:60},
+              ],
+            },
+            {
+              dataList:'2023-4-21',
+              subject:[
+                {name:'笔试',score2:45},
+                {name:'机试',score1:70},
+                {name:'平均分',score:57.5},
+              ],
+            },
+          ],
+        },
+        {
+        name:'董帅磊',
+          result:[
+            {
+              dataList:'2023-3-31',
+              subject:[
+                {name:'机试',score1:70},
+                {name:'笔试',score2:0},
+                {name:'平均分',score:70},
+              ],
+            },
+            {
+              dataList:'2023-4-7',
+              subject:[
+                {name:'笔试',score2:67},
+                {name:'机试',score1:60},
+                {name:'平均分',score:63.5},
+              ],
+            },
+            {
+              dataList:'2023-4-14',
+              subject:[
+                {name:'机试',score1:68},
+                {name:'笔试',score2:0},
+                {name:'平均分',score:68},
+              ],
+            },
+            {
+              dataList:'2023-4-21',
+              subject:[
+                {name:'笔试',score2:46},
+                {name:'机试',score1:85},
+                {name:'平均分',score:65.5},
+              ],
+            },
+          ],
+        },
+        {
+        name:'赵帅博',
+          result:[
+            {
+              dataList:'2023-3-31',
+              subject:[
+                {name:'机试',score1:70},
+                {name:'笔试',score2:0},
+                {name:'平均分',score:70},
+              ],
+            },
+            {
+              dataList:'2023-4-7',
+              subject:[
+                {name:'笔试',score2:58},
+                {name:'机试',score1:70},
+                {name:'平均分',score:64},
+              ],
+            },
+            {
+              dataList:'2023-4-14',
+              subject:[
+                {name:'机试',score1:65},
+                {name:'笔试',score2:0},
+                {name:'平均分',score:65},
+              ],
+            },
+            {
+              dataList:'2023-4-21',
+              subject:[
+                {name:'笔试',score2:51},
+                {name:'机试',score1:80},
+                {name:'平均分',score:65.5},
+              ],
+            },
+          ],
+        },
+        {
+        name:'杨浩冰',
+          result:[
+            {
+              dataList:'2023-3-31',
+              subject:[
+                {name:'机试',score1:50},
+                {name:'笔试',score2:0},
+                {name:'平均分',score:50},
+              ],
+            },
+            {
+              dataList:'2023-4-7',
+              subject:[
+                {name:'笔试',score2:66},
+                {name:'机试',score1:75},
+                {name:'平均分',score:70.5},
+              ],
+            },
+            {
+              dataList:'2023-4-14',
+              subject:[
+                {name:'机试',score1:60},
+                {name:'笔试',score2:0},
+                {name:'平均分',score:60},
+              ],
+            },
+            {
+              dataList:'2023-4-21',
+              subject:[
+                {name:'笔试',score2:65},
+                {name:'机试',score1:50},
+                {name:'平均分',score:57.5},
+              ],
+            },
+          ],
+        },
+        {
+        name:'晋帅豪',
+          result:[
+            {
+              dataList:'2023-3-31',
+              subject:[
+                {name:'机试',score1:85},
+                {name:'笔试',score2:0},
+                {name:'平均分',score:85},
+              ],
+            },
+            {
+              dataList:'2023-4-7',
+              subject:[
+                {name:'笔试',score2:72},
+                {name:'机试',score1:75},
+                {name:'平均分',score:73.5},
+              ],
+            },
+            {
+              dataList:'2023-4-14',
+              subject:[
+                {name:'机试',score1:65},
+                {name:'笔试',score2:0},
+                {name:'平均分',score:65},
+              ],
+            },
+            {
+              dataList:'2023-4-21',
+              subject:[
+                {name:'笔试',score2:78},
+                {name:'机试',score1:80},
+                {name:'平均分',score:79},
+              ],
+            },
+          ],
+        },
+        {
+        name:'郑哲元',
+          result:[
+            {
+              dataList:'2023-3-31',
+              subject:[
+                {name:'机试',score1:75},
+                {name:'笔试',score2:0},
+                {name:'平均分',score:75},
+              ],
+            },
+            {
+              dataList:'2023-4-7',
+              subject:[
+                {name:'笔试',score2:85},
+                {name:'机试',score1:25},
+                {name:'平均分',score:55},
+              ],
+            },
+            {
+              dataList:'2023-4-14',
+              subject:[
+                {name:'机试',score1:65},
+                {name:'笔试',score2:0},
+                {name:'平均分',score:65},
+              ],
+            },
+            {
+              dataList:'2023-4-21',
+              subject:[
+                {name:'笔试',score2:34.5},
+                {name:'机试',score1:70},
+                {name:'平均分',score:52.25},
+              ],
+            },
+          ],
+        },
+        {
+        name:'赵宗福',
+          result:[
+            {
+              dataList:'2023-3-31',
+              subject:[
+                {name:'机试',score1:70},
+                {name:'笔试',score2:0},
+                {name:'平均分',score:70},
+              ],
+            },
+            {
+              dataList:'2023-4-7',
+              subject:[
+                {name:'笔试',score2:60},
+                {name:'机试',score1:70},
+                {name:'平均分',score:65},
+              ],
+            },
+            {
+              dataList:'2023-4-14',
+              subject:[
+                {name:'机试',score1:62},
+                {name:'笔试',score2:0},
+                {name:'平均分',score:62},
+              ],
+            },
+            {
+              dataList:'2023-4-21',
+              subject:[
+                {name:'笔试',score2:46},
+                {name:'机试',score1:70},
+                {name:'平均分',score:58},
+              ],
+            },
+          ],
+        },
+        {
+        name:'李泉澳',
+          result:[
+            {
+              dataList:'2023-3-31',
+              subject:[
+                {name:'机试',score1:100},
+                {name:'笔试',score2:0},
+                {name:'平均分',score:100},
+              ],
+            },
+            {
+              dataList:'2023-4-7',
+              subject:[
+                {name:'笔试',score2:66},
+                {name:'机试',score1:100},
+                {name:'平均分',score:83},
+              ],
+            },
+            {
+              dataList:'2023-4-14',
+              subject:[
+                {name:'机试',score1:80},
+                {name:'笔试',score2:0},
+                {name:'平均分',score:80},
+              ],
+            },
+            {
+              dataList:'2023-4-21',
+              subject:[
+                {name:'笔试',score2:57},
+                {name:'机试',score1:95},
+                {name:'平均分',score:76},
+              ],
+            },
+          ],
+        },
+      ];
+      const cardObj = [
+        {
+          name:'陈静',
+          exam:60,
+          exam1:{
+            score:85,
+            score1:35,
+          },
+          exam2:65,
+          exam3:{
+            score:65,
+            score1:70,
+          },
+        },
+        {
+          name:'李泽',
+          exam:99,
+          exam1:{
+            score:38,
+            score1:100,
+          },
+          exam2:70,
+          exam3:{
+            score:50,
+            score1:92,
+          },
+        },
+        {
+          name:'赵灿龙',
+          exam:90,
+          exam1:{
+            score:51,
+            score1:70,
+          },
+          exam2:65,
+          exam3:{
+            score:29,
+            score1:50,
+          },
+        },
+        {
+          name:'刘佳佳',
+          exam:75,
+          exam1:{
+            score:45,
+            score1:70,
+          },
+          exam2:70,
+          exam3:{
+            score:60,
+            score1:50,
+          },
+        },
+        {
+          name:'宋好影',
+          exam:75,
+          exam1:{
+            score:62,
+            score1:70,
+          },
+          exam2:70,
+          exam3:{
+            score:58,
+            score1:65,
+          },
+        },
+        {
+          name:'齐博超',
+          exam:95,
+          exam1:{
+            score:65,
+            score1:75,
+          },
+          exam2:75,
+          exam3:{
+            score:36,
+            score1:95,
+          },
+        },
+        {
+          name:'郭栋彬',
+          exam:85,
+          exam1:{
+            score:67,
+            score1:99,
+          },
+          exam2:70,
+          exam3:{
+            score:49,
+            score1:90,
+          },
+        },
+        {
+          name:'董阳光',
+          exam:80,
+          exam1:{
+            score:61,
+            score1:70,
+          },
+          exam2:73,
+          exam3:{
+            score:41.5,
+            score1:90,
+          },
+        },
+        {
+          name:'李彦阳',
+          exam:85,
+          exam1:{
+            score:66,
+            score1:65,
+          },
+          exam2:65,
+          exam3:{
+            score:60,
+            score1:75,
+          },
+        },
+        {
+          name:'张亚哲',
+          exam:95,
+          exam1:{
+            score:61,
+            score1:75,
+          },
+          exam2:70,
+          exam3:{
+            score:52,
+            score1:80,
+          },
+        },
+        {
+          name:'刘振洲',
+          exam:85,
+          exam1:{
+            score:71,
+            score1:66,
+          },
+          exam2:60,
+          exam3:{
+            score:45,
+            score1:70,
+          },
+        },
+        {
+          name:'董帅磊',
+          exam:70,
+          exam1:{
+            score:67,
+            score1:60,
+          },
+          exam2:68,
+          exam3:{
+            score:46,
+            score1:85,
+          },
+        },
+        {
+          name:'赵帅博',
+          exam:70,
+          exam1:{
+            score:58,
+            score1:70,
+          },
+          exam2:65,
+          exam3:{
+            score:51,
+            score1:80,
+          },
+        },
+        {
+          name:'杨浩冰',
+          exam:50,
+          exam1:{
+            score:66,
+            score1:75,
+          },
+          exam2:60,
+          exam3:{
+            score:65,
+            score1:50,
+          },
+        },
+        {
+          name:'晋帅豪',
+          exam:85,
+          exam1:{
+            score:72,
+            score1:75,
+          },
+          exam2:65,
+          exam3:{
+            score:78,
+            score1:80,
+          },
+        },
+        {
+          name:'郑哲元',
+          exam:75,
+          exam1:{
+            score:85,
+            score1:25,
+          },
+          exam2:65,
+          exam3:{
+            score:34.5,
+            score1:70,
+          },
+        },
+        {
+          name:'赵宗福',
+          exam:70,
+          exam1:{
+            score:60,
+            score1:70,
+          },
+          exam2:62,
+          exam3:{
+            score:46,
+            score1:70,
+          },
+        },
+        {
+          name:'李泉澳',
+          exam:100,
+          exam1:{
+            score:66,
+            score1:100,
+          },
+          exam2:80,
+          exam3:{
+            score:57,
+            score1:95,
+          },
+        },
+      ]
+      let indexObj
+      let carObj
+      ;(function(){
+        getList(cardObj)
+        comColor()
+      })()
+      //渲染
+      console.log(cardObj);
+      function getList(cardObj) {
+        let html = ''
+        cardObj.forEach((item,index) => {
+          html +=` <tr>
+            <td><input type="checkbox" name="chebox" id=""></td>
+            <td custom=${index}>${item.name}</td>
+            <td>${item.exam}</td>
+            <td>${item.exam1.score}</td>
+            <td>${item.exam1.score1}</td>
+            <td>${(item.exam1.score+item.exam1.score1)/2}</td>
+            <td>${item.exam2}</td>
+            <td>${item.exam3.score}</td>
+            <td>${item.exam3.score1}</td>
+            <td>${(item.exam3.score+item.exam3.score1)/2}</td>
+            <td>${(item.exam+(item.exam1.score+item.exam1.score1)/2+item.exam2+(item.exam3.score+item.exam3.score1)/2)/4}</td>
+            <td id="tdList">
+              <button id='delbtn'>删除</button>
+              <button id='pilebtn'  onclick='abc(${index})'>编辑</button>
+              <button id='minebtn' data-index=${index}>查看绩图表</button>
+            </td>
+        </tr>`
+        })
+        $("tbody").html(html)
+        localStorage.setItem("data",JSON.stringify(cardObj));
+        
+      }
+
+
+      //添加
+      $('#addbtn').click(function(){
+        event.preventDefault()
+        $('#box-save').css('display','block')
+      })
+      $('#saveBtn').click(function(){
+        event.preventDefault()
+        let add = {
+          name:$('#name').val(),
+          exam:Number($('#grade1').val()),
+          exam1:{
+            score:Number($('#grade2').val()),
+            score1:Number($('#grade3').val()),
+          },
+          exam2:Number($('#grade4').val()),
+          exam3:{
+            score:Number($('#grade5').val()),
+            score1:Number($('#grade6').val()),
+          },
+        }
+       
+        cardObj.push(add)
+        localStorage.setItem("data",JSON.stringify(cardObj));
+        $("tbody tr").remove()
+        getList(cardObj)
+        $('#box-save input').val('')
+        $('#box-save').css('display','none')
+      })
+      $('.celBtn').click(function(){
+        $('#box-save input').val('')
+        $('#box-save').css('display','none')
+      })
+      //删除
+      $('tbody').on('click','td button[id="delbtn"]',function(){
+        console.log( $(this).parent().parent());
+        if (confirm('确定删除吗')){
+          $(this).parent().parent().remove()
+          console.log(cardObj);
+        }
+      })
+      //编辑回显
+      let updIndex;
+      function abc(i){
+        event.preventDefault()
+        console.log(11);
+        $('#box-save1').css('display','block')
+        updIndex = i;
+        console.log(cardObj[i].name);
+        $('#nameuser').val(cardObj[i].name)
+        $('#compile1').val(cardObj[i].exam)
+        $('#compile2').val(cardObj[i].exam1.score)
+        $('#compile3').val(cardObj[i].exam1.score1)
+        $('#compile4').val(cardObj[i].exam2)
+        $('#compile5').val(cardObj[i].exam3.score)
+        $('#compile6').val(cardObj[i].exam3.score1)
+      }
+      //上传
+      $('#addcomBtn').click(function(){
+        event.preventDefault()
+        cardObj[updIndex].name=$('#nameuser').val()
+        cardObj[updIndex].exam=Number($('#compile1').val())
+        cardObj[updIndex].exam1.score=Number($('#compile2').val())
+        cardObj[updIndex].exam1.score1=Number($('#compile3').val())
+        cardObj[updIndex].exam2=Number($('#compile4').val())
+        cardObj[updIndex].exam3.score=Number($('#compile5').val())
+        cardObj[updIndex].exam3.score1=Number($('#compile6').val())
+        $("tbody tr").remove()
+        getList(cardObj)
+        $('#box-save1').css('display','none')
+      })
+      $('.celcomBtn').click(function(){
+        event.preventDefault()
+        $('#box-save input').val('')
+        $('#box-save1').css('display','none')
+      })
+      //50分以下红色90分以上紫色
+      function comColor() {
+      for (const item of $("tbody td:gt(1)")) {
+        if ($(item).html() <= 50) {
+          $(item).css("background", "red");
+        } else if ($(item).html() >= 90) {
+          $(item).css("background", "purple");
+        }
+      }
+    }
+    //全选
+    $("#che").click(function () {
+      if ($(this).prop("checked")) {
+        $("td input[name='chebox']").prop("checked", true);
+      } else {
+        $("td input[name='chebox']").prop("checked", false);
+      }
+    });
+    //渲染全选单个
+    $('tbody').on('click',"td input[name='chebox']",function(){
+      var n = 0
+             $('td input[name="chebox"]').each(function(){
+                if ($(this).prop('checked')==false) {
+                    n++
+                }
+                if (n==0) {
+                    $('#che').prop('checked',true)
+                }else{
+                    $('#che').prop('checked',false)
+                }
+             })
+    })
+    //批量删除
+    $('#addVlu').click(function(){
+      event.preventDefault()
+      let batch = []
+      if (confirm("确认删除吗?")) {
+        for (const item of $('td input[name="chebox"]')) {
+          if ($(item).prop("checked")) {
+            console.log($(item).prop("checked"));
+            batch.push($(item).attr("data-index"));
+          }
+        }
+        console.log(batch);
+        for (const item of batch) {
+          cardObj.splice(item, 1);
+          // console.log(item);
+        }
+        getList(cardObj)
+        comColor()
+        $("#che").prop("checked", false);
+      }
+    })
+    //搜索
+    $('#souList').click(function(){
+      event.preventDefault()
+      let arr = cardObj.filter(item=>{
+            return item.name.includes($('#textObj').val())
+        })
+        $("tbody tr").remove()
+        getList(arr)
+        comColor()
+    })
+    $('#isa').click(function(){
+      $('#box').css('display','none')
+    })
+    //查看
+   $('tbody').on('click','button[id="minebtn"]',function(){
+    $('#box').css('display','block')
+    let evn = event.target.dataset.index
+    let stv = students[evn]
+    console.log(stv.name);
+    let stuent = [stv]
+    console.log(stuent);
+    var myChart,option
+    layui.use('table',function(){
+      var $ = layui.$
+      showList()
+      function showList() {
+        console.log(stv.result);
+        let sta = stv.result
+        let arr = []
+      for (let i = 0; i < sta.length; i++) {
+        // console.log(sta[i].dataList);
+        arr.push(sta[i].dataList)
+      }
+      let arr1 = []
+      let arr2 = []
+        for (let j = 0; j < sta.length; j++) {
+          console.log(sta[j].subject);
+          for (let k = 0; k < sta[j].subject.length; k++) {
+            // console.log(sta[j].subject[k].score1);
+            // console.log(sta[j].subject[k].score2);
+            arr1.push(sta[j].subject[k].score1)
+            arr2.push(sta[j].subject[k].score2)
+            console.log(arr1);
+            for (let a = 0; a < arr1.length; a++) {
+              if (!arr1[a]) {
+                arr1.splice(a,1)
+                
+              }
+            }
+            // console.log(arr1);
+            for (let a = 0; a < arr2.length; a++) {
+              if (arr2[a]==undefined) {
+                arr2.splice(a,1)
+                
+              }
+            }
+            console.log(arr2);
+          }
+          
+        }
+      // console.log(arr);
+        myChart = echarts.init(document.getElementById('main'))
+        option = {
+                title:{
+                  text:stv.name+"的成绩",
+                },
+                tooltip:{
+                  trigger:'axis',
+                  axisPointer:{
+                    type:'shadow'
+                  },
+                },
+                 xAxis: {
+                   type: 'category',
+                   data:arr,
+                  },
+                 yAxis: {
+                   type: 'value'
+                 },
+                 legend: {
+                    data: ['机试','笔试']
+                },
+                 series: [
+                      {
+                        name:'机试',
+                        type: 'bar',
+                        data:arr1,
+                      },
+                      {
+                        name:'笔试',
+                        type: 'bar',
+                        data:arr2,
+                      }
+                 ]
+               }
+               myChart.setOption(option)
+              }
+    })
+      
+   })
+    </script>
+  </body>
+</html>
