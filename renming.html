@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link
+    rel="stylesheet"href="sw.min1.css"/>
+    <style>
+         html,
+      body {
+        position: relative;
+        height: 400px;
+        width: 800px;
+      }
+
+      body {
+        background: #eee;
+        font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+        font-size: 14px;
+        color: #000;
+        margin: 0;
+        padding: 0;
+      }
+
+      .swiper {
+        width: 100%;
+        height: 100%;
+      }
+
+      .swiper-slide {
+        text-align: center;
+        font-size: 18px;
+        background: #fff;
+
+        /* Center slide text vertically */
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: flex;
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        -webkit-justify-content: center;
+        justify-content: center;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        -webkit-align-items: center;
+        align-items: center;
+      }
+
+      .swiper-slide img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        position: relative;
+      }
+
+      .swiper {
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .swiper-button-next:hover{
+        background-color: #000;
+      }
+      .swiper-button-prev:hover{
+        background-color: #000;
+      }
+      .swiper-slide span{
+        position: absolute;
+        bottom: 10px;
+        left: 10px;
+        color: #eee;
+      }
+      .swiper-pagination {
+    position: absolute;
+    text-align: right;
+    transition: .3s opacity;
+    transform: translate3d(0,0,0);
+    z-index: 10;
+      }
+    .swiper-pagination-bullet-active {
+      width: 30px;
+    }
+
+    </style>
+    
+</head>
+<body>
+    <!-- <div class="swiper mySwiper">
+        <ul class="swiper-wrapper" data-visible="" id="newsPic" style="width: 3800px; left: 360px; position: relative; overflow: hidden; padding: 0px; margin: 0px;">
+            <li class="swiper-slide">
+                <img src="https://img.henan.gov.cn/3e6de3e9b67e0e3914e8adeede40dd1a?p=0"></a>
+                <p>打造产业集群</p>
+            </li><li class="swiper-slide">
+                <img src="https://img.henan.gov.cn/99e61c6143540d4f08a59343f754f85e?p=0"></a>
+                <p>发展乡村旅游 助力乡村振兴</p>
+            </li><li class="swiper-slide">
+                <img src="https://img.henan.gov.cn/f3f4264d3735a01b78b81c3d7498a75c?p=0"></a>
+                <p>“五一”假期 河南多项交通数据亮眼</p>
+            </li><li class="swiper-slide">
+                <img src="https://img.henan.gov.cn/560fb4198b858fd0deb48098daa04a55?p=0"></a>
+                <p>我们正青春</p>
+            </li></ul>
+    </div>
+</div> -->
+<div class="swiper mySwiper">
+    <div class="swiper-wrapper">
+      <div class="swiper-slide"><img src="https://img.henan.gov.cn/3e6de3e9b67e0e3914e8adeede40dd1a?p=0"><span>打造产业集群</span></div>
+      <div class="swiper-slide"><img src="https://img.henan.gov.cn/99e61c6143540d4f08a59343f754f85e?p=0"><span>发展乡村旅游 助力乡村振兴</span></div>
+      <div class="swiper-slide"><img src="https://img.henan.gov.cn/f3f4264d3735a01b78b81c3d7498a75c?p=0"><span>“五一”假期 河南多项交通数据亮眼</span></div>
+      <div class="swiper-slide"><img src="https://img.henan.gov.cn/560fb4198b858fd0deb48098daa04a55?p=0"><span>我们正青春</span></div>
+    </div>
+    <div class="swiper-pagination"></div>
+   
+  </div>
+    <div class="swiper-button-next"></div>
+    <div class="swiper-button-prev"></div>
+  <!-- Swiper JS -->
+  <script src="swiper-bundle.min.js"></script>
+  <script src="jquery.js"></script>
+
+  <!-- Initialize Swiper -->
+  <script>
+    var swiper = new Swiper(".mySwiper", {
+      slidesPerView: 1,
+      spaceBetween: 0,
+      loop: true,
+      pagination: {
+         el: '.swiper-pagination',
+         clickable: true,
+      },
+      navigation: {
+        nextEl: ".swiper-button-next",
+        prevEl: ".swiper-button-prev",
+      },
+      autoplay: true,
+      delay:3000,
+    })
+  </script>
+</body>
+</html>
